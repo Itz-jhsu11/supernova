@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-label="SUPERNOVA logo">
+  <defs>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff7e6" stop-opacity="1"/>
+      <stop offset="35%" stop-color="#ffd166" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#b86bff" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#b86bff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="burst" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c4dff"/>
+      <stop offset="45%" stop-color="#b86bff"/>
+      <stop offset="100%" stop-color="#ffd166"/>
+    </linearGradient>
+    <linearGradient id="word" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e9e4ff"/>
+      <stop offset="70%" stop-color="#c9b8ff"/>
+      <stop offset="100%" stop-color="#ffd166"/>
+    </linearGradient>
+    <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+  </defs>
+
+  <!-- glow halo -->
+  <circle cx="100" cy="100" r="92" fill="url(#coreGlow)"/>
+
+  <!-- diagonal minor rays -->
+  <g fill="url(#burst)" opacity="0.55" transform="rotate(45 100 100)">
+    <path d="M100 30 L110 90 L170 100 L110 110 L100 170 L90 110 L30 100 L90 90 Z"/>
+  </g>
+
+  <!-- main four-point star -->
+  <path fill="url(#burst)" d="M100 12 L114 84 L188 100 L114 116 L100 188 L86 116 L12 100 L86 84 Z"/>
+
+  <!-- hot core -->
+  <circle cx="100" cy="100" r="17" fill="#fff7e6" filter="url(#soft)"/>
+  <circle cx="100" cy="100" r="9" fill="#ffffff"/>
+
+  <!-- orbit sparkles -->
+  <g fill="#ffd166">
+    <path d="M158 46 l3.5 9 9 3.5 -9 3.5 -3.5 9 -3.5 -9 -9 -3.5 9 -3.5 Z"/>
+    <path d="M44 148 l2.6 6.8 6.8 2.6 -6.8 2.6 -2.6 6.8 -2.6 -6.8 -6.8 -2.6 6.8 -2.6 Z" opacity="0.85"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="220" y="112" font-family="'Avenir Next', 'Futura', 'Helvetica Neue', Arial, sans-serif"
+        font-size="52" font-weight="700" letter-spacing="10" fill="url(#word)">SUPERNOVA</text>
+  <text x="222" y="146" font-family="'Avenir Next', 'Helvetica Neue', Arial, sans-serif"
+        font-size="16" font-weight="500" letter-spacing="7" fill="#8f86b8">THE NOVA APP SUITE ✦</text>
+</svg>
