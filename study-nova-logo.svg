@@ -1,0 +1,17 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="studyGlow" cx="50%" cy="46%" r="52%">
+      <stop offset="0%" stop-color="#ffd9a8" stop-opacity=".6"/>
+      <stop offset="42%" stop-color="#ffb86b" stop-opacity=".28"/>
+      <stop offset="72%" stop-color="#8b7bff" stop-opacity=".14"/>
+      <stop offset="100%" stop-color="#8b7bff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="studyStar" x1="16" y1="1" x2="16" y2="31" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#fff"/><stop offset="34%" stop-color="#ffb86b"/><stop offset="100%" stop-color="#7d6bf5"/>
+    </linearGradient>
+  </defs>
+  <circle cx="16" cy="15" r="15" fill="url(#studyGlow)"/>
+  <path d="M16 1 C17.35 11.32 20.68 14.65 30.56 16 C20.68 17.35 17.35 20.68 16 31 C14.65 20.68 11.32 17.35 1.44 16 C11.32 14.65 14.65 11.32 16 1 Z" fill="url(#studyStar)"/>
+  <circle cx="16" cy="16" r="2.6" fill="#fff"/>
+  <path d="M25.5 5.5 C25.9 8 26.5 8.6 29 9 C26.5 9.4 25.9 10 25.5 12.5 C25.1 10 24.5 9.4 22 9 C24.5 8.6 25.1 8 25.5 5.5 Z" fill="#ffe3bf" opacity=".9"/>
+</svg>

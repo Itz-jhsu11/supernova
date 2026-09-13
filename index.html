@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SUPERNOVA — The Nova App Suite</title>
-<meta name="description" content="SUPERNOVA is a suite of apps built for students — SAT prep, planning, habits, research, portfolios, and financial literacy, all under one account.">
+<meta name="description" content="SUPERNOVA is a suite of apps built for students — SAT prep, AI tutoring, planning, habits, research, portfolios, and financial literacy.">
 <link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23b86bff" d="M50 4 L58 42 L96 50 L58 58 L50 96 L42 58 L4 50 L42 42 Z"/><circle cx="50" cy="50" r="8" fill="white"/></svg>'>
 <style>
   :root {
@@ -126,7 +126,7 @@
     flex-wrap: nowrap; gap: clamp(2px, 1.2vw, 14px);
   }
   .ltr {
-    font-size: clamp(2.4rem, 9.5vw, 7.2rem);
+    font-size: clamp(1.9rem, 9.5vw, 7.2rem);
     font-weight: 800; line-height: 1; font-family: inherit;
     background: none; border: none; padding: 0 clamp(1px, .5vw, 6px);
     color: var(--text);
@@ -216,6 +216,51 @@
   .bubble .open-app.disabled {
     background: none; border: 1px solid rgba(155,147,189,.4); color: var(--muted);
     box-shadow: none; cursor: default; pointer-events: none;
+  }
+
+  /* Two apps share S. The circles exchange places along an orbital path. */
+  button.ltr[data-app="sat"]::after { margin-left: -5px; box-shadow: 11px 0 0 var(--purple); }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  .s-selector[hidden] { display: none; }
+  .s-selector { text-align: center; margin: -3px 0 24px; padding-bottom: 22px; border-bottom: 1px solid rgba(184,107,255,.16); }
+  .s-label { margin: 0 24px; color: var(--muted); font-size: .69rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+  .s-orbit { position: relative; width: 280px; max-width: 100%; height: 190px; margin: 0 auto; isolation: isolate; }
+  .s-orbit::before { content: ""; position: absolute; inset: 51px 6px; border: 1px solid rgba(184,107,255,.18); border-radius: 50%; transform: rotate(-12deg); }
+  .app-orb {
+    position: absolute; left: 50%; top: 50%; width: 128px; height: 128px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    border-radius: 50%; border: 1px solid color-mix(in srgb, var(--orb-color) 36%, transparent);
+    color: var(--text); background: radial-gradient(circle at 35% 25%, color-mix(in srgb, var(--orb-color) 15%, #17112c), #0e0b1a 75%);
+    font-family: inherit; font-size: .84rem; font-weight: 700; line-height: 1.3; cursor: pointer;
+    transform: translate(-50%, -50%) translate(72px, -8px) scale(.82); opacity: .72; z-index: 1;
+    box-shadow: 0 8px 26px rgba(0,0,0,.35);
+  }
+  .app-orb[aria-pressed="true"] {
+    transform: translate(-50%, -50%) translate(-72px, 8px) scale(1); opacity: 1; z-index: 2;
+    border-color: var(--orb-color); box-shadow: 0 0 28px color-mix(in srgb, var(--orb-color) 20%, transparent), inset 0 0 18px color-mix(in srgb, var(--orb-color) 7%, transparent);
+  }
+  .app-orb img { width: 49px; height: 49px; pointer-events: none; }
+  .app-orb small { font-size: .62rem; font-weight: 500; letter-spacing: .03em; color: var(--muted); }
+  .app-orb:hover { border-color: var(--orb-color); }
+  .s-controls { display: flex; justify-content: center; align-items: center; gap: 13px; }
+  .s-count { color: var(--muted); font-size: .75rem; font-variant-numeric: tabular-nums; letter-spacing: .1em; }
+  .rotate-apps { display: inline-flex; align-items: center; gap: 9px; background: rgba(184,107,255,.08); border: 1px solid rgba(184,107,255,.32); border-radius: 999px; color: var(--text); padding: 8px 13px; min-height: 44px; font: inherit; font-weight: 600; font-size: .8rem; cursor: pointer; }
+  .rotate-apps svg { width: 19px; height: 19px; }
+  .rotate-apps:hover { background: rgba(184,107,255,.18); border-color: var(--purple); }
+  .app-orb:focus-visible, .rotate-apps:focus-visible, .bubble .close:focus-visible, .open-app:focus-visible { outline: 2px solid var(--gold); outline-offset: 5px; }
+  .bubble .close { min-width: 36px; min-height: 36px; top: 8px; right: 10px; z-index: 4; }
+  .bubble header .blogo img { display: block; width: 100%; height: 100%; }
+  .bubble .access-note { color: var(--muted); margin-top: 12px; font-size: .78rem; }
+  @media (max-width: 480px) {
+    nav { flex-wrap: wrap; justify-content: center; gap: 6px; }
+    nav .links { margin-left: 0; justify-content: center; width: 100%; }
+    .bubble { padding: 26px 18px 24px; margin-right: 0; }
+    .app-orb { width: 118px; height: 118px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .stars, .stars2, .clickme, .bubble.open { animation: none; }
+    button.ltr, .bubble .tail, .open-app { transition: none; }
   }
 
   /* ---------- plus strip ---------- */
@@ -324,7 +369,7 @@
     <div class="wordwrap">
       <div class="clickme" id="clickme">✦ Click a letter!</div>
       <h1 class="letters" aria-label="SUPERNOVA">
-        <button class="ltr" style="--lc: var(--gold)"   data-app="sat" aria-expanded="false" aria-controls="appBubble">S</button>
+        <button class="ltr" style="--lc: var(--gold)"   data-app="sat" aria-label="S: SAT Nova and Study Nova" aria-expanded="false" aria-controls="appBubble">S</button>
         <button class="ltr" style="--lc: var(--orange)" data-app="unw" aria-expanded="false" aria-controls="appBubble">U</button>
         <button class="ltr" style="--lc: var(--pink)"   data-app="pf"  aria-expanded="false" aria-controls="appBubble">P</button>
         <button class="ltr" style="--lc: var(--blue)"   data-app="day" aria-expanded="false" aria-controls="appBubble">E</button>
@@ -339,10 +384,31 @@
     <div class="bubble" id="appBubble" role="dialog" aria-modal="false" aria-label="App details">
       <div class="tail"></div>
       <button class="close" id="bubbleClose" aria-label="Close">✕</button>
+      <div class="s-selector" id="sSelector" role="group" aria-label="Apps under S" hidden>
+        <p class="s-label">One letter. Two apps.</p>
+        <div class="s-orbit">
+          <button class="app-orb" type="button" data-choice="sat" style="--orb-color: var(--gold)" aria-pressed="true" aria-controls="bubbleContent" aria-label="Select SAT Nova">
+            <img src="/sat-nova-logo.svg" alt="" width="49" height="49">
+            <span>SAT Nova</span><small>Prepare for test day</small>
+          </button>
+          <button class="app-orb" type="button" data-choice="study" style="--orb-color: var(--purple)" aria-pressed="false" aria-controls="bubbleContent" aria-label="Select Study Nova">
+            <img src="/study-nova-logo.svg" alt="" width="49" height="49">
+            <span>Study Nova</span><small>Learn step by step</small>
+          </button>
+        </div>
+        <div class="s-controls">
+          <span class="s-count" id="sCount" aria-hidden="true">01 / 02</span>
+          <button class="rotate-apps" id="rotateApps" type="button" aria-label="Rotate apps: show Study Nova" aria-controls="bubbleContent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.5 7a7.5 7.5 0 0 1 12.4-1L20 9M4 15l2.1 3A7.5 7.5 0 0 0 18.5 17"/></svg>
+            Rotate apps
+          </button>
+        </div>
+        <p class="sr-only" id="sStatus" role="status"></p>
+      </div>
       <div id="bubbleContent"></div>
     </div>
 
-    <p class="hint">Five letters, five apps — <b>S</b>AT prep, <b>U</b>nwavering habits, <b>P</b>ortfolio, <b>E</b>veryday planning, <b>R</b>esearch. One Nova account signs you into all of them.</p>
+    <p class="hint">Five letters, six apps — <b>S</b>AT prep &amp; <b>S</b>tudy tutoring, <b>U</b>nwavering habits, <b>P</b>ortfolio, <b>E</b>veryday planning, <b>R</b>esearch. Click <b>S</b> to explore both.</p>
 
     <div class="plus-label">Plus, in the suite</div>
     <div class="plus">
@@ -368,7 +434,7 @@
           </svg>
         </div>
         <div><strong>NOVA Market</strong><span>Track the market, learn the economics underneath.</span></div>
-        <a href="https://nova-market-gamma.vercel.app" target="_blank" rel="noopener">Open →</a>
+        <a href="https://market.supernova-learn.com" target="_blank" rel="noopener">Open →</a>
       </div>
       <div class="mini" style="--accent: var(--purple)">
         <div class="mlogo">
@@ -382,8 +448,8 @@
             <path d="M16 5.5 Q17.6 14.4 26.5 16 Q17.6 17.6 16 26.5 Q14.4 17.6 5.5 16 Q14.4 14.4 16 5.5 Z" fill="#ffffff"/>
           </svg>
         </div>
-        <div><strong>Nova ID</strong><span>One account for every Nova app.</span></div>
-        <a href="https://nova-id-topaz.vercel.app" target="_blank" rel="noopener">Open →</a>
+        <div><strong>Nova ID</strong><span>Your account for connected Nova apps.</span></div>
+        <a href="https://id.supernova-learn.com" target="_blank" rel="noopener">Open →</a>
       </div>
     </div>
   </header>
@@ -420,7 +486,20 @@
       </header>
       <p class="what">A gamified, Duolingo-style Digital SAT prep app. A personalized day-by-day roadmap that ends on your test date, learn-first lessons with worked math, a near-infinite question engine, adaptive Bluebook-style full exams scaled to 1600, and Nova — a Socratic AI coach that guides with questions instead of just giving answers.</p>
       <p class="helps"><b>How it helps:</b> turns months of intimidating SAT prep into a clear daily rhythm — three lessons and a timed test a day — so students walk into test day already knowing the path they took to get there.</p>
-      <a class="open-app" href="https://satnova.vercel.app" target="_blank" rel="noopener">Open SAT Nova ✦</a>
+      <a class="open-app" href="https://sat.supernova-learn.com" target="_blank" rel="noopener">Open SAT Nova ✦</a>
+    </div>
+  </template>
+
+  <template id="tpl-study">
+    <div style="--accent: var(--purple)">
+      <header>
+        <div class="blogo"><img src="/study-nova-logo.svg" alt="Study Nova logo" width="54" height="54"></div>
+        <h3>Study Nova <span class="badge soon">Private preview</span></h3>
+      </header>
+      <p class="what">A personal AI tutor across math, science, English, history, coding, and more. Get clear explanations, work through tricky problems, and practice at your level with a tutor that helps you understand the reasoning.</p>
+      <p class="helps"><b>How it helps:</b> turns “I’m stuck” into a next step — with guided questions, useful hints, and practice that builds the confidence to solve the next problem yourself.</p>
+      <a class="open-app" href="https://study-nova.narwhal2196.chatgpt.site" target="_blank" rel="noopener">Open Study Nova ✦</a>
+      <p class="access-note">ChatGPT sign-in · Access required during the private preview.</p>
     </div>
   </template>
 
@@ -466,7 +545,7 @@
       </header>
       <p class="what">A permanent, private-by-default record of everything a student has actually done — activities, projects, awards, and work — built up as it happens instead of reconstructed in a panic senior year.</p>
       <p class="helps"><b>How it helps:</b> when applications, résumés, and scholarship forms arrive, the work is already written down. Nothing gets forgotten, and nothing is shared unless the student explicitly turns it on.</p>
-      <a class="open-app" href="https://nova-portfolio-pink.vercel.app" target="_blank" rel="noopener">Open Nova Portfolio ✦</a>
+      <a class="open-app" href="https://portfolio.supernova-learn.com" target="_blank" rel="noopener">Open Nova Portfolio ✦</a>
     </div>
   </template>
 
@@ -474,20 +553,13 @@
     <div style="--accent: var(--blue)">
       <header>
         <div class="blogo">
-          <svg viewBox="0 0 48 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Everyday Nova logo">
-            <defs>
-              <linearGradient id="d1Bolt" x1="0" y1="0" x2="48" y2="46" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stop-color="#a06bff"/><stop offset="55%" stop-color="#7e14ff"/><stop offset="100%" stop-color="#47bfff"/>
-              </linearGradient>
-            </defs>
-            <path fill="url(#d1Bolt)" d="M25.946 44.938c-.664.845-2.021.375-2.021-.698V33.937a2.26 2.26 0 0 0-2.262-2.262H10.287c-.92 0-1.456-1.04-.92-1.788l7.48-10.471c1.07-1.497 0-3.578-1.842-3.578H1.237c-.92 0-1.456-1.04-.92-1.788L10.013.474c.214-.297.556-.474.92-.474h28.894c.92 0 1.456 1.04.92 1.788l-7.48 10.471c-1.07 1.498 0 3.579 1.842 3.579h11.377c.943 0 1.473 1.088.89 1.83L25.947 44.94z"/>
-          </svg>
+          <img src="/everyday-nova-logo.svg" width="64" height="64" alt="Everyday Nova: clock and SUPERNOVA star" style="width:100%;height:100%;object-fit:contain" />
         </div>
         <h3>Everyday Nova <span class="badge live">Live</span></h3>
       </header>
       <p class="what">A student schedule-optimizer for after school — the E in SUPER. Brain-dump your tasks — category, importance, due date, estimated time — and Everyday Nova builds an optimized, time-blocked evening that fits before your bedtime, with automatic breaks, a live run timer, and a floating picture-in-picture timer.</p>
       <p class="helps"><b>How it helps:</b> replaces the nightly "where do I even start?" spiral with a plan that respects sleep — the schedule always ends before bedtime, and anything that won't fit is flagged honestly as overflow.</p>
-      <a class="open-app" href="https://novaday.vercel.app" target="_blank" rel="noopener">Open Everyday Nova ✦</a>
+      <a class="open-app" href="https://everyday.supernova-learn.com" target="_blank" rel="noopener">Open Everyday Nova ✦</a>
     </div>
   </template>
 
@@ -517,7 +589,7 @@
       </header>
       <p class="what">A research project planner that gets a student from "I'm interested in something" to "I did real work on it." AI-shaped project plans, candidate research questions, and a structure built around one enemy: the long quiet middle where projects usually die.</p>
       <p class="helps"><b>How it helps:</b> every design decision is judged by one question — does this make the project easier to return to after a gap? Students can drift for weeks and still pick the thread back up.</p>
-      <a class="open-app" href="https://nova-research-peach.vercel.app" target="_blank" rel="noopener">Open Nova Research ✦</a>
+      <a class="open-app" href="https://research.supernova-learn.com" target="_blank" rel="noopener">Open Nova Research ✦</a>
     </div>
   </template>
 
@@ -564,59 +636,95 @@
     var content = document.getElementById('bubbleContent');
     var tail = bubble.querySelector('.tail');
     var letters = Array.prototype.slice.call(document.querySelectorAll('button.ltr'));
+    var selector = document.getElementById('sSelector');
+    var orbs = Array.prototype.slice.call(selector.querySelectorAll('.app-orb'));
+    var rotate = document.getElementById('rotateApps');
+    var status = document.getElementById('sStatus');
+    var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     var current = null;
+    var selected = 'sat';
+    var rotating = false;
 
-    function accentFor(el) {
-      var inner = el.querySelector('div');
-      return inner ? inner.style.getPropertyValue('--accent') : 'var(--purple)';
+    function renderApp(app) {
+      var tpl = document.getElementById('tpl-' + app);
+      content.replaceChildren(tpl.content.cloneNode(true));
+      bubble.style.setProperty('--accent', content.firstElementChild.style.getPropertyValue('--accent'));
     }
 
-    function close() {
+    function positionBubble() {
+      if (!current) return;
+      var hero = bubble.parentElement.getBoundingClientRect();
+      var padding = parseFloat(getComputedStyle(bubble.parentElement).paddingLeft);
+      var bw = bubble.offsetWidth;
+      var letter = current.getBoundingClientRect();
+      var center = letter.left + letter.width / 2;
+      var desired = Math.max(0, Math.min(hero.width - padding * 2 - bw, center - hero.left - padding - bw / 2));
+      bubble.style.marginLeft = desired + 'px';
+      tail.style.left = Math.max(26, Math.min(bw - 26, center - hero.left - padding - desired)) + 'px';
+    }
+
+    function close(restoreFocus) {
+      var previous = current;
       bubble.classList.remove('open');
       letters.forEach(function (b) { b.setAttribute('aria-expanded', 'false'); });
       current = null;
+      if (restoreFocus && previous) previous.focus();
     }
 
     function openFor(btn) {
-      var tpl = document.getElementById('tpl-' + btn.dataset.app);
-      if (!tpl) return;
-      content.innerHTML = '';
-      content.appendChild(tpl.content.cloneNode(true));
-      bubble.style.setProperty('--accent', accentFor(content));
-
+      current = btn;
+      selector.hidden = btn.dataset.app !== 'sat';
+      renderApp(selector.hidden ? btn.dataset.app : selected);
       letters.forEach(function (b) { b.setAttribute('aria-expanded', String(b === btn)); });
       bubble.classList.remove('open');
-      void bubble.offsetWidth; // restart pop animation
+      void bubble.offsetWidth;
       bubble.classList.add('open');
-
-      // slide the bubble toward the clicked letter, then point the tail at it
-      var pad = 16;
-      var hero = bubble.parentElement.getBoundingClientRect();
-      var bw = bubble.offsetWidth;
-      var innerLeft = hero.left + pad;
-      var innerWidth = hero.width - pad * 2;
-      var lcx = btn.getBoundingClientRect().left + btn.getBoundingClientRect().width / 2;
-      var desired = lcx - innerLeft - bw / 2;
-      desired = Math.max(0, Math.min(innerWidth - bw, desired));
-      bubble.style.marginLeft = desired + 'px';
-      var tailX = lcx - (innerLeft + desired);
-      tailX = Math.max(26, Math.min(bw - 26, tailX));
-      tail.style.left = tailX + 'px';
-      current = btn;
+      positionBubble();
     }
 
+    function chooseApp(app) {
+      if (app === selected || rotating) return;
+      selected = app;
+      var animations = [];
+      orbs.forEach(function (orb) {
+        var incoming = orb.dataset.choice === app;
+        orb.setAttribute('aria-pressed', String(incoming));
+        if (reducedMotion.matches || !orb.animate) return;
+        var front = 'translate(-50%, -50%) translate(-72px, 8px) scale(1)';
+        var back = 'translate(-50%, -50%) translate(72px, -8px) scale(.82)';
+        animations.push(orb.animate([
+          { transform: incoming ? back : front, opacity: incoming ? .72 : 1 },
+          { transform: 'translate(-50%, -50%) translate(0, ' + (incoming ? '38px' : '-38px') + ') scale(' + (incoming ? '1.06' : '.72') + ')', opacity: incoming ? 1 : .6, offset: .5 },
+          { transform: incoming ? front : back, opacity: incoming ? 1 : .72 }
+        ], { duration: 620, easing: 'cubic-bezier(.4, 0, .2, 1)' }).finished);
+      });
+      renderApp(app);
+      document.getElementById('sCount').textContent = app === 'sat' ? '01 / 02' : '02 / 02';
+      rotate.setAttribute('aria-label', 'Rotate apps: show ' + (app === 'sat' ? 'Study Nova' : 'SAT Nova'));
+      status.textContent = (app === 'sat' ? 'SAT Nova, 1' : 'Study Nova, 2') + ' of 2 selected.';
+      positionBubble();
+      if (animations.length) {
+        rotating = true;
+        rotate.setAttribute('aria-disabled', 'true');
+        Promise.all(animations).catch(function () {}).then(function () {
+          rotating = false;
+          rotate.removeAttribute('aria-disabled');
+        });
+      }
+    }
+
+    orbs.forEach(function (orb) { orb.addEventListener('click', function () { chooseApp(orb.dataset.choice); }); });
+    rotate.addEventListener('click', function () { chooseApp(selected === 'sat' ? 'study' : 'sat'); });
     letters.forEach(function (btn) {
       btn.addEventListener('click', function (e) {
         e.stopPropagation();
-        if (current === btn) { close(); } else { openFor(btn); }
+        if (current === btn) close(false); else openFor(btn);
       });
     });
-
-    document.getElementById('bubbleClose').addEventListener('click', close);
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-    document.addEventListener('click', function (e) {
-      if (current && !bubble.contains(e.target)) close();
-    });
+    document.getElementById('bubbleClose').addEventListener('click', function () { close(true); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && current) close(true); });
+    document.addEventListener('click', function (e) { if (current && !bubble.contains(e.target)) close(false); });
+    window.addEventListener('resize', positionBubble);
   })();
 </script>
 </body>

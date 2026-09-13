@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Everyday Nova: clock with energy-tipped hands over the SUPERNOVA star">
+  <defs>
+    <linearGradient id="burst" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#7c4dff"/><stop offset=".45" stop-color="#b86bff"/><stop offset="1" stop-color="#ffd166"/></linearGradient>
+    <radialGradient id="halo"><stop stop-color="#b86bff" stop-opacity=".5"/><stop offset="1" stop-color="#b86bff" stop-opacity="0"/></radialGradient>
+    <radialGradient id="energy"><stop stop-color="#fff"/><stop offset=".35" stop-color="#fff5cb"/><stop offset=".65" stop-color="#ffd166"/><stop offset="1" stop-color="#ffb64d" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect x="2" y="2" width="124" height="124" rx="28" fill="#100d25"/>
+  <circle cx="64" cy="64" r="62" fill="url(#halo)"/>
+  <path d="M64 6 74 54 122 64 74 74 64 122 54 74 6 64 54 54Z" fill="url(#burst)"/>
+  <path d="M64 20 71 57 108 64 71 71 64 108 57 71 20 64 57 57Z" transform="rotate(45 64 64)" fill="url(#burst)" opacity=".45"/>
+  <circle cx="64" cy="64" r="37" fill="#14112e" fill-opacity=".88" stroke="#e9e4ff" stroke-width="3"/>
+  <g stroke="#c5b6fa" stroke-width="2" stroke-linecap="round"><path d="M64 33v4M95 64h-4M64 95v-4M33 64h4"/></g>
+  <path d="M49 50 64 64 83 45" fill="none" stroke="#fff3d4" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="49" cy="50" r="9" fill="url(#energy)"/><circle cx="49" cy="50" r="3.2" fill="#fff5d5"/>
+  <circle cx="83" cy="45" r="9" fill="url(#energy)"/><circle cx="83" cy="45" r="3.2" fill="#fff5d5"/>
+  <circle cx="64" cy="64" r="3.5" fill="#fff"/>
+</svg>
